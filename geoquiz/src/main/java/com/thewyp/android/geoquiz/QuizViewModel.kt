@@ -13,18 +13,31 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_asia, true)
     )
 
-    var isCheater = false
-
     var currentIndex = 0
 
+    val currentQuestion: Question
+        get() = questionBank[currentIndex]
+
     val currentQuestionText: Int
-        get() = questionBank[currentIndex].textResId
+        get() = currentQuestion.textResId
 
     val currentQuestionAnswer: Boolean
-        get() = questionBank[currentIndex].answer
+        get() = currentQuestion.answer
 
     fun moveToNext() {
-        isCheater = false
         currentIndex = (currentIndex + 1) % questionBank.size
+    }
+
+    fun checkCheated(): Boolean {
+        var count = 0
+        for (question in questionBank) {
+            if (question.isCheat) {
+                count++
+            }
+            if (count == 3) {
+                break
+            }
+        }
+        return count == 3
     }
 }

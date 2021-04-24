@@ -1,10 +1,11 @@
 package com.thewyp.android.geoquiz
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -54,10 +55,13 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
 
-        cheakButton.setOnClickListener {
+        val function: (v: View) -> Unit = {
             val newIntent = CheatActivity.newIntent(this, viewModel.currentQuestionAnswer)
-            startActivityForResult(newIntent, REQUEST_CODE_CHEAT)
+            val options =
+                ActivityOptions.makeClipRevealAnimation(it, 0, 0, it.width, it.height)
+            startActivityForResult(newIntent, REQUEST_CODE_CHEAT, options.toBundle())
         }
+        cheakButton.setOnClickListener(function)
 
         updateQuestion()
     }
@@ -69,14 +73,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (requestCode == REQUEST_CODE_CHEAT) {
-            viewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            viewModel.currentQuestion.isCheat =
+                data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
         }
     }
 
 
     private fun checkAnswer(userAnswer: Boolean) {
         val messageResId = when {
-            viewModel.isCheater -> R.string.judgement_toast
+            viewModel.currentQuestion.isCheat -> R.string.judgement_toast
             userAnswer == viewModel.currentQuestionAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
@@ -86,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = viewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
+        cheakButton.isEnabled = !viewModel.checkCheated()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
