@@ -1,2 +1,3 @@
+include ':criminalintent'
 include ':geoquiz'
 rootProject.name = "KotlinPractice"
