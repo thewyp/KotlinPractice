@@ -9,7 +9,8 @@ data class Crime(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
     var title: String = "",
     var date: Date = Date(),
-    var isSoled: Boolean = false
+    var isSoled: Boolean = false,
+    var suspect: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -21,6 +22,7 @@ data class Crime(
         if (title != other.title) return false
         if (date != other.date) return false
         if (isSoled != other.isSoled) return false
+        if (suspect != other.suspect) return false
 
         return true
     }
@@ -30,6 +32,7 @@ data class Crime(
         result = 31 * result + title.hashCode()
         result = 31 * result + date.hashCode()
         result = 31 * result + isSoled.hashCode()
+        result = 31 * result + suspect.hashCode()
         return result
     }
 }

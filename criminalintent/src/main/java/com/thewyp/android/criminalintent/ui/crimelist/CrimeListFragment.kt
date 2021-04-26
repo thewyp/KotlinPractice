@@ -2,9 +2,7 @@ package com.thewyp.android.criminalintent.ui.crimelist
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -33,10 +31,15 @@ class CrimeListFragment : Fragment() {
         callbacks = context as Callbacks?
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_crime_list, container, false)
     }
@@ -44,9 +47,6 @@ class CrimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.crime_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-//                Thread {
-//                    viewModel.test()
-//                }.start()
         adapter = CrimeAdapter()
         recyclerView.adapter = adapter
 
@@ -104,6 +104,24 @@ class CrimeListFragment : Fragment() {
         super.onDetach()
         callbacks = null
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_crime_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_crime -> {
+                val crime = Crime()
+                viewModel.addCrime(crime)
+                callbacks?.onCrimeSelected(crime.id)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    }
+
 
     companion object {
         fun newInstance(): Fragment {
