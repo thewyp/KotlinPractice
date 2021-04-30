@@ -8,7 +8,7 @@ import com.thewyp.android.criminalintent.model.Crime
 import com.thewyp.android.criminalintent.repository.Repository
 import java.util.*
 
-class CrimeDetailViewModel: ViewModel() {
+class CrimeDetailViewModel : ViewModel() {
 
     private val crimeIdLiveData = MutableLiveData<UUID>()
 
@@ -24,4 +24,6 @@ class CrimeDetailViewModel: ViewModel() {
     fun saveCrime(crime: Crime) {
         Repository.get().updateCrime(crime)
     }
+
+    fun getPhotoFile(crime: Crime) = Repository.get().getPhotoFile(crime)
 }

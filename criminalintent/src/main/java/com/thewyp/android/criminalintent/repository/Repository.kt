@@ -7,6 +7,7 @@ import com.thewyp.android.criminalintent.APP
 import com.thewyp.android.criminalintent.model.Crime
 import com.thewyp.android.criminalintent.database.CrimeDatabase
 import com.thewyp.android.criminalintent.database.migration_1_2
+import java.io.File
 import java.util.*
 
 private const val DATABASE_NAME = "crime-database"
@@ -21,6 +22,10 @@ class Repository private constructor(context: Context) {
         .build()
 
     private val crimeDao = database.crimeDao()
+
+    private val filesDir = context.applicationContext.filesDir
+
+    fun getPhotoFile(crime: Crime) = File(filesDir, crime.photoFileName)
 
     fun getCrimes(): LiveData<List<Crime>> = crimeDao.getCrimes()
     fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
