@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinPractice</string>
+    <string name="app_name">GeoQuiz</string>
     <string name="question_australia">Canberra is the capital of Australia.</string>
     <string name="question_oceans">The Pacific Ocean is larger than tha Atlantic Ocean.</string>
     <string name="question_mideast">The Suez Canal connects the Red Sea and the Indian Ocean.</string>
