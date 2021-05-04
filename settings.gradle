@@ -1,3 +1,5 @@
+include ':nerdlauncher'
+include ':beatbox'
 include ':criminalintent'
 include ':geoquiz'
 rootProject.name = "KotlinPractice"
