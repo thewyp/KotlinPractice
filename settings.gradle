@@ -1,3 +1,4 @@
+include ':photogallery'
 include ':nerdlauncher'
 include ':beatbox'
 include ':criminalintent'
